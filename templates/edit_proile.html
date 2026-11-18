@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h1>Edit Profile</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Username</label>
+        <input type="text" name="username" value="{{ request.user.username }}" required>
+        <label>Email</label>
+        <input type="email" name="email" value="{{ request.user.email }}">
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ request.user.phone }}">
+        <label>About Me</label>
+        <textarea name="about">{{ request.user.about }}</textarea>
+        <label>Profile Photo</label>
+        <input type="file" name="photo" accept="image/*">
+        {% if request.user.photo %}
+            <img src="{{ request.user.photo.url }}" alt="Profile Photo" width="120">
+        {% endif %}
+        <button type="submit">Save Changes</button>
+    </form>
+    <a href="{% url 'profile' %}">Back to Profile</a>
+</div>
+{% endblock %}

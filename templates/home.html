@@ -1,13 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card">
-    <h1>Welcome to Finance Tracker</h1>
-    <p>Manage your income and expenses easily.</p>
+<section class="hero">
+    <h1>Find Your Football Field</h1>
+    <p>Book a football field and enjoy the game with your friends.</p>
+    {% if user.is_authenticated %}
+        <a class="btn" href="{% url 'fields' %}">Explore Fields</a>
+    {% else %}
+        <a class="btn" href="{% url 'register' %}">Get Started</a>
+        <a class="btn" href="{% url 'login' %}">Login</a>
+    {% endif %}
+</section>
+<section class="card">
+    <h2>How It Works</h2>
+    <div class="steps">
+        <div>
+            <h3>1. Find a Field</h3>
+            <p>Choose a field that fits your team and your budget.</p>
+        </div>
 
-    <br>
+        <div>
+            <h3>2. Book a Field</h3>
+            <p>Book an available field with just a few clicks.</p>
+        </div>
 
-    <a href="{% url 'registration' %}" class="btn">Get Started</a>
-    <a href="{% url 'login' %}" class="btn">Login</a>
-</div>
+        <div>
+            <h3>3. Play Football</h3>
+            <p>Enjoy the game with your team or find new teammates.</p>
+        </div>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Play Together</h2>
+    <p>Don't have a full team? Join other players and play together.</p>
+    {% if user.is_authenticated %}
+        <a class="btn" href="{% url 'play_together' %}">Find Players</a>
+    {% else %}
+        <a class="btn" href="{% url 'login' %}">Login to Join</a>
+    {% endif %}
+</section>
 
 {% endblock %}

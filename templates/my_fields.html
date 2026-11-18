@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>My Fields</h1>
+<h2>Active Bookings</h2>
+{% for booking in active_bookings %}
+    <div class="card">
+        <h3>{{ booking.field.name }}</h3>
+        <p>Address: {{ booking.field.address }}</p>
+        <p>Booked: {{ booking.created_at }}</p>
+
+        {% if booking.has_team %}
+            <p>Team: Yes</p>
+        {% else %}
+            <p>Team: No</p>
+        {% endif %}
+        <a href="{% url 'booking_detail' booking.id %}">View Booking</a>
+    </div>
+{% empty %}
+    <p>You have no active bookings.</p>
+{% endfor %}
+
+<h2>Booking History</h2>
+{% for booking in history %}
+    {% if booking.status != 'active' %}
+        <div class="card">
+            <h3>{{ booking.field.name }}</h3>
+            <p>Date: {{ booking.created_at }}</p>
+            <p>Status: {{ booking.status }}</p>
+            <a href="{% url 'booking_detail' booking.id %}">View Details</a>
+        </div>
+    {% endif %}
+{% empty %}
+    <p>No booking history.</p>
+{% endfor %}
+{% endblock %}

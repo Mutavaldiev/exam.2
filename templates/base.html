@@ -5,35 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>TechStore</title>
+    <title>Football Fields</title>
 </head>
 <body>
-
-    <header class="header">
-        <div class="logo">
-            <h2>Tech<span>Store</span></h2>
-        </div>
-
-        <nav class="navbar">
+<header>
+    <h2>Football Fields</h2>
+    <div>
+        {% if user.is_authenticated %}
             <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'fields' %}">Fields</a>
+            <a href="{% url 'play_together' %}">Play Together</a>
+            <a href="{% url 'my_fields' %}">My Fields</a>
             <a href="{% url 'profile' %}">Profile</a>
-            <a href="{% url 'logout' %}" class="logout-btn">Logout </a>
-        </nav>
-    </header>
-
-
-    <main class="container">
-        {% block content %}
-        {% endblock %}
-    </main>
-
-
-    <footer class="footer">
-        <h2>Tech<span>Store</span></h2>
-        <p>Your trusted online electronics store.</p>
-        <div class="footer-links">
+            <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button class="button" type="submit">Log out</button>
+            </form>
+        {% else %}
             <a href="{% url 'home' %}">Home</a>
-        </div>
-    </footer>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+</header>
+
+<div class="container">
+    {% for message in messages %}
+        <div class="message">{{ message }}</div>
+    {% endfor %}
+    {% block content %}
+    {% endblock %}
+</div>
+
+
+<footer>
+    Football Fields — Find your field and play together
+</footer>
 </body>
 </html>

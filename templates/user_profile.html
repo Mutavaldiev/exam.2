@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h1>Player Profile</h1>
+    {% if player.photo %}
+        <img src="{{ player.photo.url }}" alt="{{ player.username }}" width="150">
+    {% endif %}
+    <h2>{{ player.username }}</h2>
+    <p>Email: {{ player.email }}</p>
+    <p>Phone: {{ player.phone }}</p>
+    <p>About: {{ player.about }}</p>
+    <a href="{% url 'play_together' %}">Back to Play Together</a>
+</div>
+{% endblock %}

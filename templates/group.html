@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Football Groups</h1>
+<div class="grid">
+    {% for order in orders %}
+    <div class="card">
+        <h2>{{ order.stadium.name }}</h2>
+        <p>Owner: {{ order.user.username }}</p>
+        <p>Date: {{ order.date }}</p>
+        <p>Time: {{ order.time }}</p>
+        <h3>
+            Players: {{ order.players.count }}/20
+        </h3>
+        <h3>Team Members</h3>
+        {% for player in order.players.all %}
+            <p>{{ player.username }}</p>
+        {% empty %}
+            <p>No players</p>
+        {% endfor %}
+        {% if order.players.count < 20 %}
+            {% if user not in order.players.all %}
+                <a href="{% url 'join' order.id %}" class="button">Join Team</a>
+            {% else %}
+                <p>You are already in this team.</p>
+            {% endif %}
+        {% else %}
+            <p>Team is full!</p>
+        {% endif %}
+    </div>
+    {% empty %}
+        <h2>No groups available</h2>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+    {% if field.photo %}
+        <img src="{{ field.photo.url }}" alt="{{ field.name }}" width="400">
+    {% endif %}
+    <h1>{{ field.name }}</h1>
+    <p>Address: {{ field.address }}</p>
+    <p>Category: {{ field.category.name }}</p>
+    <p>Players: {{ field.category.players_count }}</p>
+    <p>Price: {{ field.price }}</p>
+    <p>{{ field.description }}</p>
+
+
+    {% if field.is_free %}
+        <p>Available</p>
+        <a href="{% url 'book_field' field.id %}">Book Field</a>
+
+
+    {% else %}
+        <p>Occupied</p>
+    {% endif %}
+    <a href="{% url 'fields' %}">Back to Fields</a>
+</div>
+{% endblock %}
+

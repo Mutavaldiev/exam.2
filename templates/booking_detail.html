@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h1>Booking Details</h1>
+    <h2>{{ booking.field.name }}</h2>
+    <p>Address: {{ booking.field.address }}</p>
+    <p>Price: {{ booking.field.price }}</p>
+    <p>Booking Date: {{ booking.created_at }}</p>
+    <p>Status: {{ booking.status }}</p>
+    
+    {% if booking.status == 'active' %}
+        <form method="post" action="{% url 'cancel_booking' booking.id %}">
+            {% csrf_token %}
+            <button type="submit">Cancel Booking</button>
+        </form>
+
+        <form method="post" action="{% url 'finish_booking' booking.id %}">
+            {% csrf_token %}
+            <button type="submit">Finish Game</button>
+        </form>
+    {% endif %}
+    <a href="{% url 'my_fields' %}">Back to My Fields</a>
+</div>
+{% endblock %}

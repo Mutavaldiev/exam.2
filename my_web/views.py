@@ -252,3 +252,12 @@ def user_profile(request, pk):
     player = get_object_or_404(CustomUser, pk=pk)
     return render(request, 'user_profile.html', {'player': player})
 
+
+
+
+
+
+@login_required
+def play_together(request):
+    bookings = Booking.objects.filter( status='active', has_team=False)
+    return render(request, 'studium.html', {'bookings': bookings})

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Football Fields</h1>
+<form method="get" class="search-form">
+    <input type="text" name="search" value="{{ search|default:'' }}" placeholder="Search field name or address">
+    <h3>Categories</h3>
+    <button type="submit">Search</button>
+    <a href="{% url 'fields' %}" class="btn">Reset</a>
+</form>
+
+<div class="field-list">
+    {% for field in fields %}
+        <div class="card field-card">
+            {% if field.photo %}
+                <img src="{{ field.photo.url }}" alt="{{ field.name }}">
+            {% endif %}
+            <h2>{{ field.name }}</h2>
+            <p>{{ field.address }}</p>
+            <p>Category: {{ field.category.name }}</p>
+            <p>Price: {{ field.price }}</p>
+
+            {% if field.is_free %}
+                <p class="available">Available</p>
+            {% else %}
+                <p class="occupied">Occupied</p>
+            {% endif %}
+            <a href="{% url 'field_detail' field.id %}" class="btn">View Details</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
