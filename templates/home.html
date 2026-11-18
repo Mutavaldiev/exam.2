@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h1>Welcome to Finance Tracker</h1>
+    <p>Manage your income and expenses easily.</p>
+
+    <br>
+
+    <a href="{% url 'registration' %}" class="btn">Get Started</a>
+    <a href="{% url 'login' %}" class="btn">Login</a>
+</div>
+
+{% endblock %}
