@@ -11,6 +11,8 @@
         <input type="email" name="email" required>
         <label>Password</label>
         <input type="password" name="password" required>
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ request.user.phone }}">
         <label>Profile Photo</label>
         <input type="file" name="photo" accept="image/*">
         <button type="submit">Register</button>

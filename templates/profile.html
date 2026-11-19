@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h1>My Profile</h1>
+    {% if user.photo %}
+        <img src="{{ user.photo.url }}" width="150">
+    {% endif %}
+    <h3>Username: {{ user.username }}</h3>
+    <p>Email: {{ user.email }}</p>
+    <p>Phone: {{ user.phone }}</p>
+    <p>About: {{ user.about }}</p>
+    <h3>My Bookings: {{ bookings_count }}</h3>
+    <a href="{% url 'my_fields' %}" class="button">My Bookings</a>
+    <a href="{% url 'edit_profile' %}" class="button">Edit Profile</a>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+    </form>
+</div>
+{% endblock %}

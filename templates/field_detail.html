@@ -13,15 +13,12 @@
     <p>{{ field.description }}</p>
 
 
-    {% if field.is_free %}
-        <p>Available</p>
-        <a href="{% url 'book_field' field.id %}">Book Field</a>
-
-
-    {% else %}
-        <p>Occupied</p>
-    {% endif %}
-    <a href="{% url 'fields' %}">Back to Fields</a>
+{% if field.is_free %}
+    <p>Available</p>
+    <a href="{% url 'book_field' field.id %}">Book Field</a>
+{% else %}
+    <p>Occupied</p>
+{% endif %}
 </div>
 {% endblock %}
 

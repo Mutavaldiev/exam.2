@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 from .models import CustomUser, Category, Field, Booking, Participant
 
 
@@ -57,13 +59,16 @@ def login_user(request):
 
 
 
-@login_required
-def logout_user(request):
+def login_user(request):
     if request.method == 'POST':
-        logout(request)
-        return redirect('home')
-    return redirect('home')
-
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate( request, username=username, password=password )
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        messages.error(request, 'Invalid username or password')
+    return render(request, 'login.html')
 
 
 
@@ -120,7 +125,7 @@ def book_field(request, pk):
         booking = Booking.objects.create( user=request.user, field=field, has_team=has_team, players_needed=players_needed, status='active')
         field.is_free = False
         field.save()
-        return redirect('booking_detail', pk=booking.pk)
+        return redirect('my_fields')
     return render(request, 'booking.html', {'field': field})
 
 
@@ -151,14 +156,14 @@ def booking_detail(request, pk):
 
 @login_required
 def cancel_booking(request, pk):
-    booking = get_object_or_404( Booking, pk=pk, user=request.user, status='active' )
+    booking = get_object_or_404( Booking, pk=pk, user=request.user, status='active')
     if request.method == 'POST':
+        booking.status = 'cancelled'
         booking.save()
         booking.field.is_free = True
         booking.field.save()
         return redirect('my_fields')
     return redirect('booking_detail', pk=booking.pk)
-
 
 
 
@@ -261,3 +266,9 @@ def user_profile(request, pk):
 def play_together(request):
     bookings = Booking.objects.filter( status='active', has_team=False)
     return render(request, 'studium.html', {'bookings': bookings})
+
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
